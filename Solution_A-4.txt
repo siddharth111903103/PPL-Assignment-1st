@@ -1,0 +1,53 @@
+A.4 
+INPUT-                                                                                                      OUTPUT-
+
+int main()                                                                                                  main ()
+{                                                                                                                  {
+    int a[3];                                                                                                    int D.1917;
+    int b[] = {1, 2, 3};                                                                                       
+    int i, *p;                                                                                                   {
+    for (i=0; i<3; i++) {                                                                                         int a[3];
+        a[i] = b[i];                                                                                               int b[3];
+    }                                                                                                                 int i;
+    p = a;                                                                                                         int * p;
+    *(p + 2) = 5;                                                                                               |
+}                                                                                                                   try
+                                                                                                                     {
+~                                                                                                                       b[0] = 1;
+~                                                                                                                       b[1] = 2;
+~                                                                                                                       b[2] = 3;
+~                                                                                                                       i = 0;
+~                                                                                                                       goto <D.1914>;
+~                                                                                                                       <D.1913>:
+~                                                                                                                       _1 = b[i];
+~                                                                                                                       a[i] = _1;
+~                                                                                                                       i = i + 1;
+~                                                                                                                       <D.1914>:
+~                                                                                                                       if (i <= 2) goto <D.1913>; else goto <D.1915>;
+~                                                                                                                       <D.1915>:
+~                                                                                                                       p = &a;
+~                                                                                                                       _2 = p + 8;
+~                                                                                                                       *_2 = 5;
+~                                                                                                                     }
+~                                                                                                                   finally
+~                                                                                                                     {
+~                                                                                                                       a = {CLOBBER};
+~                                                                                                                      b = {CLOBBER};
+~                                                                                                                     }
+~                                                                                                                 }
+~                                                                                                                 D.1917 = 0;
+~                                                                                                                return D.1917;
+~                                                                                                               }
+~                                                      
+ 
+
+Solution
+-------------
+
+1. In arrays, it is split from initialization and included in the process body, the initialization is split into multiple statements that assign values to individual elements in array.
+
+
+2. The a[i] = b[i] gets split into two with temporary, since the Gimple can perform one operation per statement. It can read and write to array location simultaneously
+.
+
+3. CLOBBER statements are used for address-escaped variables. It signifies that scope of this  address-escaped variable has ended.

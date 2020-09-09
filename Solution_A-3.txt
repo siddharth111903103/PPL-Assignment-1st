@@ -1,0 +1,45 @@
+A.3 
+INPUT                                                                                                         OUTPUT        
+
+int main()                                                                                                     main ()
+{                                                                                                               {
+        int sum = 0;                                                                                             int D.1922;
+        int i, j;                                                                                              
+                                                                                                                 {
+        while(sum < 100) {                                                                                         int sum;
+                sum = sum * 2;                                                                                     int i;
+        }                                                                                                          int j;
+                                                                                                                
+        for(i=0; i<25; i++) {                                                                                      sum = 0;
+                for(j=0; j<50; j++) {                                                                               goto <D.1913>;
+                        sum = sum + i*j;                                                                           <D.1912>:
+                }                                                                                                   sum = sum * 2;
+        }                                                                                                           <D.1913>:
+}                                                                                                                   if (sum <= 99) goto <D.1912>; else goto <D.1914>;
+                                                                                                                    <D.1914>:
+                                                                                                                   i = 0;
+                                                                                                                   goto <D.1919>;
+                                                                                                                   <D.1918>:
+                                                                                                                   j = 0;
+                                                                                                                  goto <D.1916>;
+                                                                                                                   <D.1915>:
+                                                                                                                   _1 = i * j;
+                                                                                                                   sum = sum + _1;
+                                                                                                                   j = j + 1;
+                                                                                                                  <D.1916>:
+                                                                                                                 if (j <= 49) goto <D.1915>; else goto <D.1917>;
+                                                                                                                   <D.1917>:
+                                                                                                                   i = i + 1;
+                                                                                                                  <D.1919>:
+                                                                                                                   if (i <= 24) goto <D.1918>; else goto <D.1920>;
+                                                                                                                   <D.1920>:
+                                                                                                                 }
+                                                                                                                 D.1922 = 0;
+                                                                                                                  return D.1922;
+                                                                                                                 }
+  
+1. A basic block that corresponding to the while loop in Gimple is conditional block i.e.  if-else. And also goto function has been used for re-entering to if-else block unless the given condition becomes false.
+The goto function makes the difference between while loop and if-else jumps.
+
+
+2. For loop is just a while-loop with the initializer seperated out into an initial basic block. In the body of the loop, the increment part is at the end of loop body, and the conditional jump backs to start of loop.

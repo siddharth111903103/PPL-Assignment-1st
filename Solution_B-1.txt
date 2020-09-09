@@ -1,0 +1,30 @@
+B1
+
+INPUT            
+                                                                                           OUTPUT
+
+int AddTwo(int a)                                                             AddTwo (int a)
+{                                                                             {
+    a = a + 2;                                                                  int D.1914;
+    return a;                                                                 
+}                                                                               a = a + 2;
+                                                                               D.1914 = a;
+int main()                                                                      return D.1914;
+{                                                                             }
+    int x = 3;                                                                
+    x = AddTwo(x);                                                            
+    return x;                                                                 main ()
+}                                                                             {
+                                                                                int D.1916;
+                                                                             
+                                                                               {
+                                                                                 int x;
+                                                                             
+                                                                                 x = 3;
+                                                                                 x = AddTwo (x);
+                                                                                 D.1916 = x;
+                                                                                 return D.1916;
+                                                                               }
+                                                                               D.1916 = 0;
+                                                                               return D.1916;
+                                                                             }

@@ -1,0 +1,388 @@
+A-1
+INPUT                                                                                                       OUTPUT
+
+int  Z;                                                                                                          main ()
+                                                                                                                {
+void main()                                                                                                     int a;
+{                                                                                                                        int b;
+        int a, b, c;                                                                                               int c;
+        int p = 6;                                                                                                 int p;
+        int q;                                                                                                       int q;
+        double r;                                                                                                double r;
+                                                                                                                
+        a = 10;                                                                                                   p = 6;
+        b = 20;                                                                                                  a = 10;
+        c = a * b + 25;                                                                                      b = 20;
+        p = 6;                                                                                                   _1 = a * b;
+        q = Z;                                                                                                    c = _1 + 25;
+        r = 34.5;                                                                                                p = 6;
+        Z = r;                                                                                                    q = Z;
+        Z = Z + 1;                                                                                              r = 3.45e+1;
+}                                                                                                                 _Z = (int) r;
+                                                                                                                     Z = _2;
+~                                                                                                                  Z.0_3 = Z;
+~                                                                                                                 _4 = Z.0_3 + 1;
+~                                                                                                                   Z = _4;
+~                                                                                                               }
+
+
+Solutions
+----------
+
+1. Each declaration is displayed om  its own line as local variable declaration.
+Initializers are broken into simple declarations at the top, and the then appear as assignment statement in the procedure body.
+There is no declaration for global variable, they are directlt used.
+
+
+2. A Gimple statement can have at most one operation. Any operation containing more than one operations is broken up by introducing temporary variables. It is easy to convert C expressions into Gimple statements by considering abstract trees.
+
+3. Floats/doubles are displayed in scientific notation, such as tenth power as e+n.
+
+
+
+
+
+
+
+A.2  
+INPUT                                                                                                     OUTPUT
+
+int Z;                                                                                                          f ()
+                                                                                                                    {
+void f()                                                                                                         int a;
+{                                                                                                                     int b;
+        int a, b, c;                                                                                             int c;
+        a = Z;                                                                                                 
+        if (a < 10) {                                                                                            a = Z;
+                b = 5;                                                                                           if (a <= 9) goto <D.1914>; else goto <D.1915>;
+                c = 17;                                                                                           <D.1914>:
+        } else {                                                                                                  b = 5;
+                b = 6;                                                                                            c = 17;
+                c = 20;                                                                                          goto <D.1916>;
+                if (a == 0) {                                                                                   <D.1915>:
+                        c = 0;                                                                                    b = 6;
+                }                                                                                                 c = 20;
+        }                                                                                                         if (a == 0) goto <D.1917>; else goto <D.1918>;
+        Z = b * 10 + c;                                                                                           <D.1917>:
+}                                                                                                                 c = 0;
+                                                                                                                  <D.1918>:
+~                                                                                                                 <D.1916>:
+~                                                                                                                _1 = b * 10;
+~                                                                                                                 _2 = c + _1;
+~                                                                                                                 Z = _2;
+Solution                                
+1. If block have been broken into sections of code with labels just like temporary variables. Control transfer occurs with unconditional jumps or conditional jumps. e.g. if Z then goto X else Y
+
+ 
+
+
+
+
+
+
+A.3 
+INPUT                                                                                                         OUTPUT        
+
+int main()                                                                                                     main ()
+{                                                                                                               {
+        int sum = 0;                                                                                             int D.1922;
+        int i, j;                                                                                              
+                                                                                                                 {
+        while(sum < 100) {                                                                                         int sum;
+                sum = sum * 2;                                                                                     int i;
+        }                                                                                                          int j;
+                                                                                                                
+        for(i=0; i<25; i++) {                                                                                      sum = 0;
+                for(j=0; j<50; j++) {                                                                               goto <D.1913>;
+                        sum = sum + i*j;                                                                           <D.1912>:
+                }                                                                                                   sum = sum * 2;
+        }                                                                                                           <D.1913>:
+}                                                                                                                   if (sum <= 99) goto <D.1912>; else goto <D.1914>;
+                                                                                                                    <D.1914>:
+                                                                                                                   i = 0;
+                                                                                                                   goto <D.1919>;
+                                                                                                                   <D.1918>:
+                                                                                                                   j = 0;
+                                                                                                                  goto <D.1916>;
+                                                                                                                   <D.1915>:
+                                                                                                                   _1 = i * j;
+                                                                                                                   sum = sum + _1;
+                                                                                                                   j = j + 1;
+                                                                                                                  <D.1916>:
+                                                                                                                 if (j <= 49) goto <D.1915>; else goto <D.1917>;
+                                                                                                                   <D.1917>:
+                                                                                                                   i = i + 1;
+                                                                                                                  <D.1919>:
+                                                                                                                   if (i <= 24) goto <D.1918>; else goto <D.1920>;
+                                                                                                                   <D.1920>:
+                                                                                                                 }
+                                                                                                                 D.1922 = 0;
+                                                                                                                  return D.1922;
+                                                                                                                 }
+  
+1. A basic block that corresponding to the while loop in Gimple is conditional block i.e.  if-else. And also goto function has been used for re-entering to if-else block unless the given condition becomes false.
+The goto function makes the difference between while loop and if-else jumps.
+
+
+2. For loop is just a while-loop with the initializer seperated out into an initial basic block. In the body of the loop, the increment part is at the end of loop body, and the conditional jump backs to start of loop.
+
+
+
+
+
+
+A.4 
+INPUT-                                                                                                      OUTPUT-
+
+int main()                                                                                                  main ()
+{                                                                                                                  {
+    int a[3];                                                                                                    int D.1917;
+    int b[] = {1, 2, 3};                                                                                       
+    int i, *p;                                                                                                   {
+    for (i=0; i<3; i++) {                                                                                         int a[3];
+        a[i] = b[i];                                                                                               int b[3];
+    }                                                                                                                 int i;
+    p = a;                                                                                                         int * p;
+    *(p + 2) = 5;                                                                                               |
+}                                                                                                                   try
+                                                                                                                     {
+~                                                                                                                       b[0] = 1;
+~                                                                                                                       b[1] = 2;
+~                                                                                                                       b[2] = 3;
+~                                                                                                                       i = 0;
+~                                                                                                                       goto <D.1914>;
+~                                                                                                                       <D.1913>:
+~                                                                                                                       _1 = b[i];
+~                                                                                                                       a[i] = _1;
+~                                                                                                                       i = i + 1;
+~                                                                                                                       <D.1914>:
+~                                                                                                                       if (i <= 2) goto <D.1913>; else goto <D.1915>;
+~                                                                                                                       <D.1915>:
+~                                                                                                                       p = &a;
+~                                                                                                                       _2 = p + 8;
+~                                                                                                                       *_2 = 5;
+~                                                                                                                     }
+~                                                                                                                   finally
+~                                                                                                                     {
+~                                                                                                                       a = {CLOBBER};
+~                                                                                                                      b = {CLOBBER};
+~                                                                                                                     }
+~                                                                                                                 }
+~                                                                                                                 D.1917 = 0;
+~                                                                                                                return D.1917;
+~                                                                                                               }
+~                                                      
+ 
+
+Solution
+-------------
+
+1. In arrays, it is split from initialization and included in the process body, the initialization is split into multiple statements that assign values to individual elements in array.
+
+
+2. The a[i] = b[i] gets split into two with temporary, since the Gimple can perform one operation per statement. It can read and write to array location simultaneously
+.
+
+3. CLOBBER statements are used for address-escaped variables. It signifies that scope of this  address-escaped variable has ended.
+
+
+
+
+
+
+
+
+
+A 5
+INPUT                                                                                                            OUTPUT
+int main()                                                                                                      |main ()
+{                                                                                                               {
+    int a, b, c, d;                                                                                               int D.1917;
+                                                                                                                
+    d = 10;                                                                                                       {
+    if (c > d) {                                                                                                   int a;
+        a = 3;                                                                                                      int b;
+        b = 2;                                                                                                      int c;
+    } else {                                                                                                        int d;
+        a = 2;                                                                                                  
+        b = 3;                                                                                                      d = 10;
+    }                                                                                                              if (c > d) goto <D.1914>; else goto <D.1915>;
+                                                                                                                    <D.1914>:
+    c = a + b;                                                                                                      a = 3;
+}                                                                                                                   b = 2;
+                                                                                                                    goto <D.1916>;
+                                                                                                                   <D.1915>:
+                                                                                                                   a = 2;
+                                                                                                                   b = 3;
+                                                                                                                   <D.1916>:
+                                                                                                                   c = a + b;
+                                                                                                                 }
+                                                                                                                 D.1917 = 0;
+                                                                                                                return D.1917;
+                                                                                                               }
+
+Solutions
+---------
+
+
+1   Local variables are  suffixed with a unique  number which represents
+    the assignment. For  example, `d_3' refers to the  usage of variable
+    `d'  and  the  only  assignment  which reaches  this  point  is  the
+    assignment `d_3'.  Variables that are  likely to be used  before any
+    assignment are suffixed  with `(D)' to indicate  that the assignment
+    was implicit in the declaration.  This happens to both uninitialized
+    local variables and formal parameters.  For example, variable `c' is
+    used as `c_4(D)' in the `if' condition.
+
+
+2   A PHI node merges assignments from different paths and creates a new
+    assignment. For example:
+
+	# a_1 = PHI <a_5(3), a_7(4)> 
+
+    indicates that if  the control reaches here from basic  block 3 then
+    use the  value of a_5;  otherwise if  the control reaches  here from
+    basic block 4 then use the value of a_7.
+
+
+3   A switch statement can result in a merge of more than two paths (and
+    hence possibly more than two assignments). Consider:
+
+    int main()
+    {
+	int a, b;
+	switch (a)
+	{
+	    case 1:
+	        b = 2;
+	        break;
+	    case 2:
+	        b = 3;
+	        break;
+	    case 3:
+	        b = 4;
+	    case 4:
+	        b = 5;
+	        break;
+	    case 5:
+	    case 6:
+	        b = 6;
+	        break;
+	    default:
+	        b = 7;
+	}
+	return b;
+    }
+    
+    In this case  the PHI node at  the end of the  switch statement will
+    merge multiple assignments such as:
+
+    # b_1 = PHI <b_4(3), b_5(4), b_7(6), b_8(7), b_9(8)
+
+
+
+
+
+
+
+
+B1
+
+INPUT            
+                                                                                           OUTPUT
+
+int AddTwo(int a)                                                             AddTwo (int a)
+{                                                                             {
+    a = a + 2;                                                                  int D.1914;
+    return a;                                                                 
+}                                                                               a = a + 2;
+                                                                               D.1914 = a;
+int main()                                                                      return D.1914;
+{                                                                             }
+    int x = 3;                                                                
+    x = AddTwo(x);                                                            
+    return x;                                                                 main ()
+}                                                                             {
+                                                                                int D.1916;
+                                                                             
+                                                                               {
+                                                                                 int x;
+                                                                             
+                                                                                 x = 3;
+                                                                                 x = AddTwo (x);
+                                                                                 D.1916 = x;
+                                                                                 return D.1916;
+                                                                               }
+                                                                               D.1916 = 0;
+                                                                               return D.1916;
+                                                                             }
+
+
+
+
+
+
+
+B 2
+INPUT                                                                                                     OUTPUT
+
+int N;                                                                                                          main ()
+                                                                                                                {
+int main()                                                                                                        int D.1916;
+{                                                                                                               
+    int i, a = 10;                                                                                                {
+    for(i= 0; i < 4; i++)                                                                                           int i;
+    {                                                                                                               int a;
+        a = a + N;                                                                                              
+    };                                                                                                              a = 10;
+    return a;                                                                                                       i = 0;
+}                                                                                                                   goto <D.1913>;
+                                                                                                                    <D.1912>
+                                                                                                                   N.0_1 = N;
+                                                                                                                   a = a + N.0_1;
+                                                                                                                   i = i + 1;
+                                                                                                                   <D.1913>:
+                                                                                                                  if (i <= 3) goto <D.1912>; else goto <D.1914>;
+                                                                                                                   <D.1914>:
+                                                                                                                   D.1916 = a;
+                                                                                                                  return D.1916;
+                                                                                                                }
+                                                                                                                 D.1916 = 0;
+                                                                                                                 return D.1916;
+                                                                                                             }
+
+
+
+
+
+B 3
+INPUT                                                                                                 OUTPUT
+
+int main ()                                                                                                  |main ()
+
+                                                                                                                 {
+{                                                                                                                 int D.3100;
+   int a, b;                                                                                                    
+   for (a=4 ; a<100; a++) {                                                                                       {
+       if (a < 4)                                                                                                  int a;
+           b = b + 2;                                                                                               int b;
+       else                                                                                                     
+           b = b * 2;                                                                                               a = 4;
+   }                                                                                                                goto <D.3094>;
+   printf ("%d%d", a, b);                                                                                          <D.3093>:
+}                                                                                                                   if (a <= 3) goto <D.3097>; else goto <D.3098>;
+                                                                                                                    <D.3097>:
+                                                                                                                   b = b + 2;
+                                                                                                                   goto <D.3099>;
+                                                                                                                   <D.3098>:
+                                                                                                                   b = b * 2;
+                                                                                                                   <D.3099>:
+                                                                                                                   a = a + 1;
+                                                                                                                   <D.3094>:
+                                                                                                                   if (a <= 99) goto <D.3093>; else goto <D.3095>;
+                                                                                                                   <D.3095>:
+                                                                                                                   printf ("%d%d", a, b);
+                                                                                                                 }
+                                                                                                                 D.3100 = 0;
+                                                                                                                 return D.3100;
+                                                                                                               }

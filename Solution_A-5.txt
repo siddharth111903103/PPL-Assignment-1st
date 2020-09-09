@@ -1,0 +1,88 @@
+
+
+A 5
+INPUT                                                                                                            OUTPUT
+int main()                                                                                                      |main ()
+{                                                                                                               {
+    int a, b, c, d;                                                                                               int D.1917;
+                                                                                                                
+    d = 10;                                                                                                       {
+    if (c > d) {                                                                                                   int a;
+        a = 3;                                                                                                      int b;
+        b = 2;                                                                                                      int c;
+    } else {                                                                                                        int d;
+        a = 2;                                                                                                  
+        b = 3;                                                                                                      d = 10;
+    }                                                                                                              if (c > d) goto <D.1914>; else goto <D.1915>;
+                                                                                                                    <D.1914>:
+    c = a + b;                                                                                                      a = 3;
+}                                                                                                                   b = 2;
+                                                                                                                    goto <D.1916>;
+                                                                                                                   <D.1915>:
+                                                                                                                   a = 2;
+                                                                                                                   b = 3;
+                                                                                                                   <D.1916>:
+                                                                                                                   c = a + b;
+                                                                                                                 }
+                                                                                                                 D.1917 = 0;
+                                                                                                                return D.1917;
+                                                                                                               }
+
+Solutions
+---------
+
+
+1   Local variables are  suffixed with a unique  number which represents
+    the assignment. For  example, `d_3' refers to the  usage of variable
+    `d'  and  the  only  assignment  which reaches  this  point  is  the
+    assignment `d_3'.  Variables that are  likely to be used  before any
+    assignment are suffixed  with `(D)' to indicate  that the assignment
+    was implicit in the declaration.  This happens to both uninitialized
+    local variables and formal parameters.  For example, variable `c' is
+    used as `c_4(D)' in the `if' condition.
+
+
+2   A PHI node merges assignments from different paths and creates a new
+    assignment. For example:
+
+	# a_1 = PHI <a_5(3), a_7(4)> 
+
+    indicates that if  the control reaches here from basic  block 3 then
+    use the  value of a_5;  otherwise if  the control reaches  here from
+    basic block 4 then use the value of a_7.
+
+
+3   A switch statement can result in a merge of more than two paths (and
+    hence possibly more than two assignments). Consider:
+
+    int main()
+    {
+	int a, b;
+	switch (a)
+	{
+	    case 1:
+	        b = 2;
+	        break;
+	    case 2:
+	        b = 3;
+	        break;
+	    case 3:
+	        b = 4;
+	    case 4:
+	        b = 5;
+	        break;
+	    case 5:
+	    case 6:
+	        b = 6;
+	        break;
+	    default:
+	        b = 7;
+	}
+	return b;
+    }
+    
+    In this case  the PHI node at  the end of the  switch statement will
+    merge multiple assignments such as:
+
+    # b_1 = PHI <b_4(3), b_5(4), b_7(6), b_8(7), b_9(8)
+
